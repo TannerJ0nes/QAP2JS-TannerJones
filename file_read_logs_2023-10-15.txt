@@ -1,0 +1,6 @@
+File read successfully: ./views/index.html
+File read successfully: ./views/index.html
+File read successfully: ./views/about.html
+File read successfully: ./views/products.html
+File read successfully: ./views/contact.html
+File read successfully: ./views/subscribe.html
