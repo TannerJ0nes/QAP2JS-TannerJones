@@ -6,18 +6,23 @@ const EventEmitter = require('events');
 
 const myEmitter = new EventEmitter();
 
+const logsDirectory = path.join(__dirname, 'logs');
+
 function createLogFiles() {
     const currentDate = new Date().toISOString().slice(0, 10);
-    fs.writeFileSync(`specific_route_logs_${currentDate}.txt`, '');
-    fs.writeFileSync(`non_home_route_logs_${currentDate}.txt`, '');
-    fs.writeFileSync(`http_status_logs_${currentDate}.txt`, '');
-    fs.writeFileSync(`error_warning_logs_${currentDate}.txt`, '');
-    fs.writeFileSync(`file_read_logs_${currentDate}.txt`, '');
+    fs.writeFileSync(path.join(logsDirectory, `specific_route_logs_${currentDate}.txt`), '');
+    fs.writeFileSync(path.join(logsDirectory, `non_home_route_logs_${currentDate}.txt`), '');
+    fs.writeFileSync(path.join(logsDirectory, `http_status_logs_${currentDate}.txt`), '');
+    fs.writeFileSync(path.join(logsDirectory, `error_warning_logs_${currentDate}.txt`), '');
+    fs.writeFileSync(path.join(logsDirectory, `file_read_logs_${currentDate}.txt`), '');
 }
 
 function initializeLogging() {
+    if (!fs.existsSync(logsDirectory)) {
+        fs.mkdirSync(logsDirectory);
+    }
     const currentDate = new Date().toISOString().slice(0, 10);
-    if (!fs.existsSync(`specific_route_logs_${currentDate}.txt`)) {
+    if (!fs.existsSync(path.join(logsDirectory, `specific_route_logs_${currentDate}.txt`))) {
         createLogFiles();
     }
 }
@@ -44,7 +49,7 @@ const server = http.createServer((request, response) => {
             }
         });
     } else {
-        let filePath = './views' + (pathname === '/' ? '/index.html' : pathname + '.html');
+        let filePath = path.join(__dirname, 'views', (pathname === '/' ? '/index.html' : pathname + '.html'));
         if (pathname === '/about') {
             myEmitter.emit('specific_route_accessed', pathname);
         } else if (pathname !== '/') {
@@ -75,29 +80,29 @@ server.listen(3000, () => {
 myEmitter.on('specific_route_accessed', (route) => {
     const logMessage = `Specific route accessed: ${route}\n`;
     console.log(logMessage);
-    fs.appendFileSync(`specific_route_logs_${new Date().toISOString().slice(0, 10)}.txt`, logMessage);
+    fs.appendFileSync(path.join(logsDirectory, `specific_route_logs_${new Date().toISOString().slice(0, 10)}.txt`), logMessage);
 });
 
 myEmitter.on('non_home_route_accessed', (route) => {
     const logMessage = `Non-home route accessed: ${route}\n`;
     console.log(logMessage);
-    fs.appendFileSync(`non_home_route_logs_${new Date().toISOString().slice(0, 10)}.txt`, logMessage);
+    fs.appendFileSync(path.join(logsDirectory, `non_home_route_logs_${new Date().toISOString().slice(0, 10)}.txt`), logMessage);
 });
 
 myEmitter.on('http_status', (statusCode) => {
     const logMessage = `HTTP Status Code: ${statusCode}\n`;
     console.log(logMessage);
-    fs.appendFileSync(`http_status_logs_${new Date().toISOString().slice(0, 10)}.txt`, logMessage);
+    fs.appendFileSync(path.join(logsDirectory, `http_status_logs_${new Date().toISOString().slice(0, 10)}.txt`), logMessage);
 });
 
 myEmitter.on('error_warning', (message) => {
     const logMessage = `Error/Warning: ${message}\n`;
     console.log(logMessage);
-    fs.appendFileSync(`error_warning_logs_${new Date().toISOString().slice(0, 10)}.txt`, logMessage);
+    fs.appendFileSync(path.join(logsDirectory, `error_warning_logs_${new Date().toISOString().slice(0, 10)}.txt`), logMessage);
 });
 
 myEmitter.on('file_read_success', (filePath) => {
     const logMessage = `File read successfully: ${filePath}\n`;
     console.log(logMessage);
-    fs.appendFileSync(`file_read_logs_${new Date().toISOString().slice(0, 10)}.txt`, logMessage);
+    fs.appendFileSync(path.join(logsDirectory, `file_read_logs_${new Date().toISOString().slice(0, 10)}.txt`), logMessage);
 });

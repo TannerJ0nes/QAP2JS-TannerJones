@@ -1,7 +1,0 @@
-Specific route accessed: /about
-Specific route accessed: /about
-Specific route accessed: /about
-Specific route accessed: /about
-Specific route accessed: /about
-Specific route accessed: /about
-Specific route accessed: /about

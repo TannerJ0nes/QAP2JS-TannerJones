@@ -1,3 +1,0 @@
-Error/Warning: File not found: ./views/CANS_dogsmiling_379727605.jpg.html
-Error/Warning: File not found: ./views/CANS_dogsmiling_379727605.jpg.html
-Error/Warning: File not found: ./views/CANS_dogsmiling_379727605.jpg.html
