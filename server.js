@@ -9,6 +9,10 @@ const myEmitter = new EventEmitter();
 function createLogFiles() {
     const currentDate = new Date().toISOString().slice(0, 10);
     fs.writeFileSync(`specific_route_logs_${currentDate}.txt`, '');
+    fs.writeFileSync(`non_home_route_logs_${currentDate}.txt`, '');
+    fs.writeFileSync(`http_status_logs_${currentDate}.txt`, '');
+    fs.writeFileSync(`error_warning_logs_${currentDate}.txt`, '');
+    fs.writeFileSync(`file_read_logs_${currentDate}.txt`, '');
 }
 
 function initializeLogging() {
@@ -24,14 +28,18 @@ const server = http.createServer((request, response) => {
     const parsedUrl = url.parse(request.url, true);
     const pathname = parsedUrl.pathname;
 
-    if (pathname === '/styles.css') {
-        const cssPath = path.join(__dirname, 'views', 'styles.css');
-        fs.readFile(cssPath, 'utf-8', (err, data) => {
+    if (pathname === '/styles.css' || pathname.endsWith('.jpg')) {
+        const filePath = path.join(__dirname, 'views', pathname);
+        fs.readFile(filePath, (err, data) => {
             if (err) {
                 response.writeHead(404, { 'Content-Type': 'text/plain' });
                 response.end('File Not Found');
             } else {
-                response.writeHead(200, { 'Content-Type': 'text/css' });
+                if (pathname.endsWith('.jpg')) {
+                    response.writeHead(200, { 'Content-Type': 'image/jpeg' });
+                } else {
+                    response.writeHead(200, { 'Content-Type': 'text/css' });
+                }
                 response.end(data);
             }
         });

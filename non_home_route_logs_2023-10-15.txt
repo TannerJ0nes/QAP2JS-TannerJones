@@ -25,3 +25,9 @@ Non-home route accessed: /subscribe
 Non-home route accessed: /products
 Non-home route accessed: /contact
 Non-home route accessed: /subscribe
+Non-home route accessed: /products
+Non-home route accessed: /contact
+Non-home route accessed: /subscribe
+Non-home route accessed: /products
+Non-home route accessed: /contact
+Non-home route accessed: /subscribe
